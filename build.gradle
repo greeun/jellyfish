@@ -1,0 +1,32 @@
+group 'com.withwiz'
+version = '0.1'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.6
+
+compileJava.options.encoding = "UTF-8"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    compile "org.slf4j:slf4j-api:1.7.9"
+    compile "ch.qos.logback:logback-classic:1.1.2"
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+            pom.artifactId = 'jellyfish'
+            pom.groupId = 'com.withwiz'
+            pom.version = '$version'
+            pom.packaging = 'jar'
+        }
+    }
+}
