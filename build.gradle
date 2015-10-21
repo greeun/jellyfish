@@ -1,5 +1,8 @@
 group 'com.withwiz'
-version = '0.1'
+
+def version = '0.1'
+
+version = "$version"
 
 apply plugin: 'java'
 apply plugin: 'maven'
@@ -25,7 +28,7 @@ uploadArchives {
             repository url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
             pom.artifactId = 'jellyfish'
             pom.groupId = 'com.withwiz'
-            pom.version = '$version'
+            pom.version = "$version"
             pom.packaging = 'jar'
         }
     }
