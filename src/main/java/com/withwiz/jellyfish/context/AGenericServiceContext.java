@@ -1,7 +1,10 @@
 package com.withwiz.jellyfish.context;
 
 import com.withwiz.jellyfish.registry.IServiceRegistry;
+import com.withwiz.jellyfish.service.AGenericService;
 import com.withwiz.jellyfish.service.IService;
+
+import java.util.Map;
 
 /**
  * Generic service context class.<BR/>
@@ -14,6 +17,14 @@ abstract public class AGenericServiceContext implements IServiceContext
 	 */
 	protected IServiceRegistry	registry	= null;
 
+	/**
+	 * constructor
+	 */
+	public AGenericServiceContext()
+	{
+		registry = createRegistry();
+	}
+
     /**
      * register service<BR/>
      *
@@ -23,7 +34,7 @@ abstract public class AGenericServiceContext implements IServiceContext
 	@Override
 	public void registerService(IService service)
 	{
-		registry.registerService(service);
+		registry.registerService(service.getName(), service);
 	}
 
     /**
@@ -51,4 +62,11 @@ abstract public class AGenericServiceContext implements IServiceContext
 	{
 		return registry.getService(serviceName);
 	}
+
+	/**
+	 * return created service registry.<BR/>
+	 * @return IServiceRegistry
+	 */
+	abstract protected IServiceRegistry createRegistry();
+
 }

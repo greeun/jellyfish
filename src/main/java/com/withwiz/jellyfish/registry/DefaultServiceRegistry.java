@@ -41,8 +41,6 @@ public class DefaultServiceRegistry extends AGenericServiceRegistry
 	{
 	}
 
-
-
 	@Override
 	public String getName()
 	{
@@ -52,15 +50,5 @@ public class DefaultServiceRegistry extends AGenericServiceRegistry
 	@Override
 	protected Map createStore() {
 		return new ConcurrentHashMap<String, IService>();
-	}
-
-	/**
-	 * test main
-	 * @param args
-     */
-	public static void main(String[] args)
-	{
-		IServiceRegistry registry = DefaultServiceRegistry.getInstance();
-		registry.registerService("ABC", null);
 	}
 }
