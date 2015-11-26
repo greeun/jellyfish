@@ -29,7 +29,7 @@ public abstract class AGenericServiceRegistry<K> implements IServiceRegistry<K>
 	 */
 	public AGenericServiceRegistry()
 	{
-		store = getStore();
+		store = createStore();
 	}
 
 	/**
@@ -103,5 +103,5 @@ public abstract class AGenericServiceRegistry<K> implements IServiceRegistry<K>
 	 * return interface for returning Store<BR/>
 	 * @return Map
      */
-	abstract protected Map<K, IService> getStore();
+	abstract protected Map<K, IService> createStore();
 }

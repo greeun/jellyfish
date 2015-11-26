@@ -50,7 +50,7 @@ public class DefaultServiceRegistry extends AGenericServiceRegistry
 	}
 
 	@Override
-	protected Map getStore() {
+	protected Map createStore() {
 		return new ConcurrentHashMap<String, IService>();
 	}
 

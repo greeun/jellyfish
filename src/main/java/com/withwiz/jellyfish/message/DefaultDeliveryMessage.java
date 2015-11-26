@@ -11,8 +11,8 @@ import java.util.Map;
  * service delivery message class<BR/>
  * Created by uni4love on 2010. 4. 1..
  */
-public class DefaultDeliveryMessage<V> extends
-		AGenericDeliveryMessage<String, V>
+public class DefaultDeliveryMessage<V>
+		extends AGenericDeliveryMessage<String, V>
 {
 	/**
 	 * constructor
@@ -22,7 +22,7 @@ public class DefaultDeliveryMessage<V> extends
 	}
 
 	@Override
-	public Map getStore()
+	public Map createStore()
 	{
 		return new HashMap<String, V>();
 	}
@@ -101,21 +101,5 @@ public class DefaultDeliveryMessage<V> extends
 					.append(entry.getValue()).append("\n");
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * test main
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args)
-	{
-		try {
-			FileInputStream fis = new FileInputStream("abc.dat");
-			BufferedInputStream bis = new BufferedInputStream(fis);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		new DefaultDeliveryMessage<String>();
 	}
 }

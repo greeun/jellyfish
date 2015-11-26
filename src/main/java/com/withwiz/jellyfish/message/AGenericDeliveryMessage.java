@@ -19,8 +19,12 @@ abstract public class AGenericDeliveryMessage<K, V> implements
 	 */
 	public AGenericDeliveryMessage()
 	{
-		store = getStore();
+		store = createStore();
 	}
 
-	abstract protected Map<K, V> getStore();
+	/**
+	 * return key-value store<BR/>
+	 * @return Map
+     */
+	abstract protected Map<K, V> createStore();
 }
