@@ -6,31 +6,33 @@ import com.withwiz.jellyfish.service.IService;
  * ServiceRegistry interface<BR/>
  * Created by uni4love on 2010. 1. 15..
  */
-public interface IServiceRegistry extends IRegistry
+public interface IServiceRegistry<K> extends IRegistry
 {
 	/**
 	 * register service<BR/>
 	 * 
+	 * @param key
+	 *            key for service
 	 * @param service
 	 *            IService interface
 	 */
-	void registerService(IService service);
+	void registerService(K key, IService service);
 
 	/**
 	 * unregister service<BR/>
 	 * 
-	 * @param serviceName
+	 * @param key
 	 *            service class name(ex: class name with full package name)
 	 * @return unregistered service
 	 */
-	IService unregisterService(String serviceName);
+	IService unregisterService(String key);
 
 	/**
 	 * get service<BR/>
 	 * 
-	 * @param serviceName
-	 *            service name
+	 * @param key
+	 *            key for service
 	 * @return IService
 	 */
-	IService getService(String serviceName);
+	IService getService(String key);
 }

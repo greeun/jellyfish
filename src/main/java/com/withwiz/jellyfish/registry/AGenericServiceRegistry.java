@@ -1,6 +1,5 @@
 package com.withwiz.jellyfish.registry;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -12,7 +11,7 @@ import com.withwiz.jellyfish.service.IService;
  * Generic service registry<BR/>
  * Created by uni4love on 2010. 3. 28..
  */
-public abstract class AGenericServiceRegistry implements IServiceRegistry
+public abstract class AGenericServiceRegistry<K> implements IServiceRegistry<K>
 {
 	/**
 	 * logger
@@ -23,14 +22,25 @@ public abstract class AGenericServiceRegistry implements IServiceRegistry
 	/**
 	 * services store
 	 */
-	protected Map<String, IService>	store	= null;
+	protected Map<K, IService>	store	= null;
 
 	/**
 	 * constructor
 	 */
 	public AGenericServiceRegistry()
 	{
-		store = new HashMap<String, IService>();
+		store = getStore();
+	}
+
+	/**
+	 * register a service<BR/>
+	 *
+	 * @param service
+	 *            service
+	 */
+	public synchronized void registerService(IService service)
+	{
+		registerService((K) service.getName(), service);
 	}
 
 	/**
@@ -40,52 +50,58 @@ public abstract class AGenericServiceRegistry implements IServiceRegistry
 	 *            service
 	 */
 	@Override
-	public synchronized void registerService(IService service)
+	public synchronized void registerService(K key, IService service)
 	{
-		if (store.containsKey(service.getName()))
+		if (store.containsKey(key))
 		{
-			log.warn("The service exists already in service registry: {}, this item is skipped.",
+			log.warn("The service key exists already in service registry: {}, this item is skipped.",
 					service.getName());
 		}
 		else
 		{
-			store.put(service.getName(), service);
-			log.info("The service registered to service registry.");
+			store.put(key, service);
+			log.info("The service registered to service registry: {}", key);
 		}
 	}
 
 	/**
 	 * unregister a service<BR/>
 	 * 
-	 * @param serviceName
-	 *            service name(ex: class name with full package name)
+	 * @param key
+	 *            service key(ex: class name with full package name)
 	 * @return unregistered service
 	 */
 	@Override
-	public synchronized IService unregisterService(String serviceName)
+	public synchronized IService unregisterService(String key)
 	{
-        if (store.containsKey(serviceName))
+        if (!store.containsKey(key))
         {
-            log.warn("The service exists already in service registry: {}",
-                    serviceName);
+            log.warn("The service NOT exists already in service registry: {}",
+					key);
         }
-		return store.remove(serviceName);
+		return store.remove(key);
 	}
 
 	/**
-	 * return service by service name<BR/>
+	 * return service by service key<BR/>
 	 * 
-	 * @param serviceName
-	 *            service name(ex: class name with full package name)
+	 * @param key
+	 *            service key(ex: class name with full package name)
 	 * @return service
 	 */
 	@Override
-	public IService getService(String serviceName)
+	public IService getService(String key)
 	{
-        if (store.containsKey(serviceName))
+        if (!store.containsKey(key))
         {
-            log.warn("The service NOT exists: {}", serviceName);
+            log.warn("The service NOT exists: {}", key);
         }
-        return store.get(serviceName);
+        return store.get(key);
 	}
+
+	/**
+	 * return interface for returning Store<BR/>
+	 * @return Map
+     */
+	abstract protected Map<K, IService> getStore();
 }
